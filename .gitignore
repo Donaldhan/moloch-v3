@@ -107,3 +107,17 @@ dist
 build/
 .DS_Store
 .DS_Store
+
+# IntelliJ project files
+.idea
+.settings
+.project
+.classpath
+*.iml
+*.bat
+out
+gen
+logs
+logs-shadow
+target
+.DS_Store
