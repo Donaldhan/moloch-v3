@@ -35,6 +35,7 @@ abstract contract ReentrancyGuard {
      * function is not supported. It is possible to prevent this from happening
      * by making the `nonReentrant` function external, and make it call a
      * `private` function that does the actual work.
+     * 不可重入锁
      */
     modifier nonReentrant() {
         // On the first call to nonReentrant, _notEntered will be true
