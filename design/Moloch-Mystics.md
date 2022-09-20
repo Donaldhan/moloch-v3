@@ -9,6 +9,21 @@
 [moloch-v3](https://github.com/Moloch-Mystics/moloch-v3)   
 
 
+[​DAOrayaki研究｜MolochDAO v1、v2、v3](https://media.daorayaki.org/daorayakiyan-jiu-molochdao-v1-v2-v3/)   
+[DAO 框架构建工具 Moloch V3 版本在 ETHDenver 大会全新发布](https://zhuanlan.zhihu.com/p/470316961)      
+[DAO 框架构建者 Moloch 在 ETHDenver 发布 V3](https://chainoe.com/8461.html)      
+[详解 Moloch DAO 特性与治理模式](https://blog.csdn.net/qq_32193015/article/details/126781979)    
+[Molochdao发布V3版本](https://dayblocknews.com/news/101503.html)    
+[从法律实体类型到底层技术，全面解读当下热门Venture DAO生态](https://www.yuanyuzhouneican.com/article-91119.html)  
+[DAO 框架构建者 Moloch 在 ETHDenver 发布 V3](https://decrypt.co/93196/dao-framework-builder-moloch-launches-v3-at-ethdenver)   
+[盘点2022年哪些DAO最值得关注？](https://salon.netease.com/app/live?liveRoomType=STUDENT_BROADCASTING_ROOM&id=95586)  
+[]()  
+[]()  
+[]()  
+[]()  
+
+
+
 Minty的Patka认为“MolochMystics”（包括使用Moloch的各种DAO的成员）组装了Baal的详细信息。该集体
 包括DAOHaus、Minty、ReflexerFinance、LexDAO的成员以及来自RaidGuild和MetaCartel的贡献者。
 
