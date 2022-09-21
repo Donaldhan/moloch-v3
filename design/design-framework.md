@@ -48,13 +48,19 @@ RPC客户端负责调用适配器的公共/外部函数，与DAO核心模块进�
 如果一个核心模块需要外部信息，应该通过一个输出适配器提供，而不是直接调用外部世界信息。
 
 # V3整体架构
+![MolochV3-framework](/image/molochv3/MolochV3-framework..png)
 
+整体架构主要有基础层，核心层，适配器层，及工厂层。
+
+
+## 基础层
 * Guard模块
 主要包含重入ReentrancyGuard、模块ModuleGuard、适配器AdapterGuard的调用控制
 
 * 注册器Registry
 核心模块的管理，比如银行Bank、成员Member、提案Proposal
 
+## 核心层
 * core模块
 
 银行Bank、成员Member、提案Proposal，以dao为维护，进行管理
@@ -62,11 +68,13 @@ RPC客户端负责调用适配器的公共/外部函数，与DAO核心模块进�
 
 成员Member：赞助ETH加入，并获取响应的shares份额
 
+## 适配器层
 
-* 适配器层
 应用层服务，提供DAO维度的管理，比如成员的加入Onboarding，提案赞助经费申请Financing，模块升级变更Managing，投票Voting，怒退Ragequit；
 
-* DAO工厂
+##
+
+DAO工厂
 DaoFactory，创建dao
 
 
@@ -81,7 +89,7 @@ V3中不再有loot的概念，统一为投票份额shares。
 # 资金链模型
 
 
-![molochv2-guild-bank-cash-model](/image/molochv2-guild-bank-cash-model.png)
+![molochv2-guild-bank-cash-model](/image/molochv2/molochv2-guild-bank-cash-model.png)
 
 
 * 发起提案
