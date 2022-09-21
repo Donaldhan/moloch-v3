@@ -1,21 +1,39 @@
+---
+layout: page
+title: DAO服务MolochV3
+subtitle: DAO服务MolochV3
+date: 2022-09-20 23:22:00
+author: Ravitn
+catalog: true
+category: DAO
+categories:
+    - DAO
+tags:
+    - Moloch
+---
+
+
 # 引言
-基于Moloch的DAO，有初始成员组成，同时限制DAO使用的ERC20 Token；任何成员如果想要成为DAO成员，只有
-发起提案，需要超过提案通过，方可加入DAO组织；DAO的公会银行资金，有提案者，贡献献给公会；任何怒退和被怒踢的
-人都可取回公会资金池相应份额的token。MolochV2只是基于怒退机制的Grant DAO，MolochV3增加了可插拔，可升级的模块化功能，
+基于Moloch的DAO，有初始成员组成，同时限制DAO使用的ERC20 Token；任何成员如果想要成为DAO成员，只有发起提案，需要超过提案通过，方可加入DAO组织；DAO的公会银行资金，有提案者，贡献献给公会；任何怒退和被怒踢的人都可取回公会资金池相应份额的token。MolochV2只是基于怒退机制的Grant DAO，MolochV3增加了可插拔，可升级的模块化功能，
 今天，我们将会扯掉MolochV3情趣内衣（~!~）。
 
-
+# 目录
+* [V2及V3概述](#v2及v3概述) 
+    * [MolochV2](#molochv2) 
+    * [MolochV3](#molochv3) 
+* [V3整体架构](#V3整体架构) 
+* [资金流模型](#资金流模型)
+* [总结](#总结)     
+* [附](#附) 
 
 # V2及V3概述
 
 ## MolochV2
-Moloch v2是MolochDAO的升级版本，它使DAO可以获取并使用多个不同的代币，而不仅仅是一种。它引入了公会剔（Guild Kick）提案类型，
-该类型允许成员强行删除另一个成员（他们的资产会被全额退还）。它还允许以战利品的形式发行无投票权的股份。最后，v2修复了最初的Nomic Labs审核中提出的“不安全批准”问题。
+Moloch v2是MolochDAO的升级版本，它使DAO可以获取并使用多个不同的代币，而不仅仅是一种。它引入了公会剔（Guild Kick）提案类型，该类型允许成员强行删除另一个成员（他们的资产会被全额退还）。它还允许以战利品的形式发行无投票权的股份。最后，v2修复了最初的Nomic Labs审核中提出的“不安全批准”问题。
 
 ### V2设计原则
 
-在开发Moloch v2的过程中，molochDAO坚持其无情的极简主义，在大幅提高实用性的同时，尽可能少地偏离原作。因此，许多功能被再次跳过，
-该设计代表了一个最小可行的营利性DAO，但它足够灵活，可以支持各种使用去中心化的情况，包括风险基金、对冲基金、投资银行和孵化器。
+在开发Moloch v2的过程中，molochDAO坚持其无情的极简主义，在大幅提高实用性的同时，尽可能少地偏离原作。因此，许多功能被再次跳过，该设计代表了一个最小可行的营利性DAO，但它足够灵活，可以支持各种使用去中心化的情况，包括风险基金、对冲基金、投资银行和孵化器。
 
 
 ## MolochV3
@@ -54,16 +72,18 @@ RPC客户端负责调用适配器的公共/外部函数，与DAO核心模块进�
 
 
 ## 基础层
+
+基础层主要Guard模块和 注册器Registry  
+
 * Guard模块
 主要包含重入ReentrancyGuard、模块ModuleGuard、适配器AdapterGuard的调用控制
 
 * 注册器Registry
-核心模块的管理，比如银行Bank、成员Member、提案Proposal
+
+注册器，主要负责核心模块的管理，比如银行Bank、成员Member、提案Proposal
 
 ## 核心层
-* core模块
-
-银行Bank、成员Member、提案Proposal，以dao为维护，进行管理
+core模块， 主要包括银行Bank、成员Member、提案Proposal，以dao为维护，进行管理
 
 
 成员Member：赞助ETH加入，并获取响应的shares份额
@@ -72,21 +92,19 @@ RPC客户端负责调用适配器的公共/外部函数，与DAO核心模块进�
 
 应用层服务，提供DAO维度的管理，比如成员的加入Onboarding，提案赞助经费申请Financing，模块升级变更Managing，投票Voting，怒退Ragequit；
 
-##
+## 工厂层
 
-DAO工厂
-DaoFactory，创建dao
-
+工厂层主要是DaoFactory，负责创建创建dao
 
 
-将MolochV2的提案，投票，怒退，银行管理等模块化；在V2中，每通过MolochSummoner部署一个Moloch，实际上就是一个DAO，DAO之间没有管理，自己管理自己的DAO；
-同时，投票，成员，银行功能无法升级，V3将这些功能模块化，同时支持模块功能的定制和升级，不过这个需要提案来完成；并将所有的DAO通过核心层管理起来；另外
+
+V3主要将MolochV2的提案，投票，怒退，银行管理等模块化；在V2中，每通过MolochSummoner部署一个Moloch，实际上就是一个DAO，DAO之间没有管理，自己管理自己的DAO；同时，投票，成员，银行功能无法升级，V3将这些功能模块化，同时支持模块功能的定制和升级，不过这个需要提案来完成；并将所有的DAO通过核心层管理起来；另外
 V3中不再有loot的概念，统一为投票份额shares。
 
 
 
 
-# 资金链模型
+# 资金流模型
 
 
 ![molochv2-guild-bank-cash-model](/image/molochv2/molochv2-guild-bank-cash-model.png)
@@ -148,10 +166,8 @@ token份额计算公式为：
 
 
 
-
 # 总结
-将MolochV2的提案，投票，怒退，银行管理等模块化；在V2中，每通过MolochSummoner部署一个Moloch，实际上就是一个DAO，DAO之间没有管理，自己管理自己的DAO；
-同时，投票，成员，银行功能无法升级，V3将这些功能模块化，同时支持模块功能的定制和升级，不过这个需要提案来完成；并将所有的DAO通过核心层管理起来；另外
+V3主要将MolochV2的提案，投票，怒退，银行管理等模块化；在V2中，每通MolochSummoner部署一个Moloch，实际上就是一个DAO，DAO之间没有管理，自己管理自己的DAO；同时，投票，成员，银行功能无法升级，V3将这些功能模块化，同时支持模块功能的定制和升级，不过这个需要提案来完成；并将所有的DAO通过核心层管理起来；另外
 V3中不再有loot的概念，统一为投票份额shares。
 
 
