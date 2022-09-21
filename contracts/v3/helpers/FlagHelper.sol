@@ -4,11 +4,17 @@ pragma solidity ^0.7.0;
 
 library FlagHelper {
     //helper
+    /**
+     * 使用uint256存放所有提案状态
+     * 获取对应位置的标志
+     */
     function getFlag(uint256 flags, uint256 pos) public pure returns (bool) {
         require(pos < 256, "position overflow. Position should be between 0 and 255");
         return (flags >> pos) % 2 == 1;
     }
-
+    /**
+     * 设置标志
+     */
     function setFlag(uint256 flags, uint256 pos, bool value) public pure returns (uint256) {
         require(pos < 256, "position overflow. Position should be between 0 and 255");
 
@@ -20,7 +26,7 @@ library FlagHelper {
             }
         }
     }
-    //[sponsored, processed, didPass, cancelled]
+    //[sponsored, processed, didPass, cancelled] 赞助，处理状态，是否通过，是否取消
     function exists(uint256 flags) public pure returns (bool) {
         return getFlag(flags, 0);
     }

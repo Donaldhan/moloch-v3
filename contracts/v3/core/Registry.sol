@@ -6,20 +6,23 @@ import '../adapters/interfaces/IOnboarding.sol';
 import './Module.sol';
 
 contract Registry is Module {
-    mapping(bytes32 => address) registry;
-    mapping(address => bytes32) inverseRegistry;
+    mapping(bytes32 => address) registry;//模块注册器
+    mapping(address => bytes32) inverseRegistry;//模块注册器，反查
 
     constructor() {
+        //注册拥有者
         bytes32 ownerId = keccak256("owner");
         registry[ownerId] = msg.sender;
         inverseRegistry[msg.sender] = ownerId;
     }
-
+    //模块限制，只有注册模块的才能调用方法功能
     modifier onlyModule {
         require(inverseRegistry[msg.sender] != bytes32(0), "only a registered module is allowed to call this function");
         _;
     }
-
+    /**
+     * 添加模块
+     */
     function addModule(bytes32 moduleId, address moduleAddress) onlyModule external {
         require(moduleId != bytes32(0), "module id must not be empty");
         require(moduleAddress != address(0x0), "module address must not be empty");
@@ -27,23 +30,32 @@ contract Registry is Module {
         registry[moduleId] = moduleAddress;
         inverseRegistry[moduleAddress] = moduleId;
     }
-
+    /**
+     * 移除模块
+     */
     function removeModule(bytes32 moduleId) onlyModule external {
         require(moduleId != bytes32(0), "module id must not be empty");
         require(registry[moduleId] != address(0x0), "module not registered");
         delete inverseRegistry[registry[moduleId]];
         delete registry[moduleId];
     }
-
+    /**
+     * 是否为module
+     */
     function isModule(address module) public view returns (bool) {
         return inverseRegistry[module] != bytes32(0);
     }
-
+    /**
+     * 获取module的注册地址
+     */
     function getAddress(bytes32 moduleId) view external returns(address) {
         return registry[moduleId];
     }
-
+    /**
+     * 执行行为动作
+     */
     function execute(address _actionTo, uint256 _actionValue, bytes calldata _actionData) onlyModule external returns (bytes memory)  {
+        //执行操作，并发送eth（_actionValue）
         (bool success, bytes memory retData) = _actionTo.call{value: _actionValue}(_actionData);
         
         if(!success) {
@@ -52,9 +64,12 @@ contract Registry is Module {
         }
         return retData;
     }
-
+    /**
+     * 接受eth，
+     */
     receive() external payable {
         if(!isModule(msg.sender)) {
+            //处理成员加入？？？， 需要使用call方式，不然gas会超标
             IOnboarding onboarding = IOnboarding(registry[ONBOARDING_MODULE]);
             uint256 amount = onboarding.processOnboarding(this, msg.sender, msg.value);
             if (msg.value > amount) {
@@ -62,7 +77,7 @@ contract Registry is Module {
             }
         }
     }
-
+    //从返回值获取错误消息
     /// @dev Get the revert message from a call
     /// @notice This is needed in order to get the human-readable revert message from a call
     /// @param _res Response of the call
@@ -70,7 +85,9 @@ contract Registry is Module {
     function _getRevertMsg(bytes memory _res) internal pure returns (string memory) {
         // If the _res length is less than 68, then the transaction failed silently (without a revert message)
         if (_res.length < 68) return 'Transaction reverted silently';
+        //获取选择器后面的数据
         bytes memory revertData = slice(_res, 4, _res.length - 4); // Remove the selector which is the first 4 bytes
+        //解码sring
         return abi.decode(revertData, (string)); // All that remains is the revert string
     }
 
